@@ -1,0 +1,28 @@
+<div layout:decorator="layouts/layout" layout:fragment="content">
+    <h1>Please Login</h1>
+
+    <form name="f" th:action="@{/login}" method="post">
+        <div th:if="${param.error}" class="alert alert-error">
+            Invalid username and password.
+        </div>
+        <div th:if="${param.logout}" class="alert alert-success">
+            You have been logged out.
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label for="username">Email</label>
+                <input type="text" id="username" name="username" class="form-control"/>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" class="form-control"/>
+            </div>
+        </div>
+
+        <input type="submit" class="btn btn-primary" value="Log in"/>
+    </form>
+</div>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"/>
+</head>
+
+<body>
+
+<header class="navbar  navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">Spring Boot Example</a>
+        </div>
+
+        <p class="navbar-text navbar-right">
+            <span th:if="${#httpServletRequest.remoteUser}">
+                <span th:text="${#httpServletRequest.remoteUser}"></span>
+                |
+                <a th:href="@{/logout}">logout</a>
+            </span>
+            <span th:if="${#httpServletRequest.remoteUser == null}">
+                <a th:href="@{/login}">login</a>
+            </span>
+        </p>
+    </div>
+</header>
+
+<div class="alert-container container">
+    <div th:text="${alertSuccess}"
+         th:class="(${alertSuccess == null} ? 'hidden' : 'show') + ' alert alert-success'"></div>
+    <div th:text="${alertInfo}" th:class="(${alertInfo == null} ? 'hidden' : 'show') + ' alert alert-info'"></div>
+    <div th:text="${alertDanger}" th:class="(${alertDanger == null} ? 'hidden' : 'show') + ' alert alert-danger'"></div>
+</div>
+
+<div class="container" layout:fragment="content"/>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
