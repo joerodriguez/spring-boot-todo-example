@@ -42,7 +42,8 @@ public class Security extends WebSecurityConfigurerAdapter {
                     throw new BadCredentialsException("Username/Password does not match for " + authentication.getPrincipal());
                 }
 
-                return new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());            }
+                return new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+            }
 
             @Override
             public boolean supports(Class<?> authentication) {
@@ -56,16 +57,16 @@ public class Security extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .formLogin()
-                    .loginPage("/login")
-                    .defaultSuccessUrl("/todo-list")
-                    .permitAll()
+                .loginPage("/login")
+                .defaultSuccessUrl("/todo-list")
+                .permitAll()
                 .and()
-                    .authorizeRequests()
-                    .antMatchers("/").permitAll()
-                    .antMatchers("/login").permitAll()
-                    .antMatchers("/logout").permitAll()
-                    .antMatchers("/register").permitAll()
-                    .antMatchers("/resources/**").permitAll()
-                    .anyRequest().authenticated();
+                .authorizeRequests()
+                .antMatchers("/").permitAll()
+                .antMatchers("/login").permitAll()
+                .antMatchers("/logout").permitAll()
+                .antMatchers("/register").permitAll()
+                .antMatchers("/resources/**").permitAll()
+                .anyRequest().authenticated();
     }
 }
