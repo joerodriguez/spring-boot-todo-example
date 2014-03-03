@@ -21,4 +21,4 @@ Running a server:
 set the DATABASE_URL environment variable
 mvn clean compile
 mvn install -DskipTests=true
-java -jar target/crc-water.jar
+java -jar target/spring-boot-example.jar
