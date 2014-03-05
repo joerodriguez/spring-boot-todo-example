@@ -1,16 +1,15 @@
 package com.github.joerodriguez.springbootexample.registration;
 
+import com.github.joerodriguez.springbootexample.config.validate.InfoValidator;
+import com.github.joerodriguez.springbootexample.config.validate.Validatable;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.ScriptAssert;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.Errors;
+
 import javax.validation.constraints.Size;
 
-@ScriptAssert(
-        lang = "javascript",
-        script = "_this.password.equals(_this.passwordConfirmation)",
-        message = "Passwords must match"
-)
-public class RegistrationInfo {
+public class RegistrationInfo implements Validatable {
 
     @NotBlank(message = "Name must not be blank")
     private String name;
@@ -54,5 +53,24 @@ public class RegistrationInfo {
 
     public void setPasswordConfirmation(String passwordConfirmation) {
         this.passwordConfirmation = passwordConfirmation;
+    }
+
+    public InfoValidator<RegistrationInfo> validator() {
+        return new InfoValidator<RegistrationInfo>() {
+
+            @Autowired UserRepository userRepository;
+
+            @Override
+            public void validate(RegistrationInfo target, Errors errors) {
+
+                if (! target.getPassword().equals(target.getPasswordConfirmation())) {
+                    errors.rejectValue("password", "", "Password must match password confirmation");
+                }
+
+                if (userRepository.findOneByEmail(target.getEmail()) != null) {
+                    errors.rejectValue("email", "", "Email address is already taken");
+                }
+            }
+        };
     }
 }

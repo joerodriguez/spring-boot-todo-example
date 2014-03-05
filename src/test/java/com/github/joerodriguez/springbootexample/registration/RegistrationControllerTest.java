@@ -8,7 +8,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -19,7 +18,6 @@ import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -57,21 +55,6 @@ public class RegistrationControllerTest {
                 .andExpect(view().name("registration/form"));
 
         verify(registrationService, never()).register(any(RegistrationInfo.class));
-    }
-
-    @Test
-    public void register_withDuplicateEmail() throws Exception {
-        doThrow(DataIntegrityViolationException.class).when(registrationService).register(any(RegistrationInfo.class));
-
-        mockMvc.perform(
-                post("/register")
-                        .param("name", "John")
-                        .param("email", "john@aol.com")
-                        .param("password", "john1234")
-                        .param("passwordConfirmation", "john1234")
-        )
-                .andExpect(model().attributeHasFieldErrors("registrationInfo", "email"))
-                .andExpect(view().name("registration/form"));
     }
 
     @Test
