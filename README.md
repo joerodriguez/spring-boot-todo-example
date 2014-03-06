@@ -15,13 +15,13 @@ The environment variable DATABASE_URL must be set to run in any environment, inc
 This should be in the postgres/heroku format: postgres://username:password@host:port/db_name
 
 Running tests:
-mvn test
+* mvn test
 
 Running a server:
-set the DATABASE_URL environment variable
-mvn clean compile
-mvn install -DskipTests=true
-java -jar target/spring-boot-example.jar
+* set the DATABASE_URL environment variable
+* mvn clean compile
+* mvn install -DskipTests=true
+* java -jar target/spring-boot-example.jar
 
 Exercises
 ---------
