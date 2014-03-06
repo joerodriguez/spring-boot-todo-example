@@ -22,3 +22,9 @@ set the DATABASE_URL environment variable
 mvn clean compile
 mvn install -DskipTests=true
 java -jar target/spring-boot-example.jar
+
+Exercises
+---------
+
+* acceptance tests for creating and deleting todos
+* functionality to edit todos
