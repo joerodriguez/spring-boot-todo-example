@@ -18,11 +18,13 @@ public class GlobalValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        if (target instanceof Validatable) {
-            InfoValidator validator = ((Validatable) target).validator();
-            autowireCapableBeanFactory.autowireBean(validator);
+        if (target instanceof Validateable) {
+            InfoValidator validator = ((Validateable) target).validator();
 
-            validator.validate(target, errors);
+            if (validator != null) {
+                autowireCapableBeanFactory.autowireBean(validator);
+                validator.validate(target, errors);
+            }
         }
     }
 }

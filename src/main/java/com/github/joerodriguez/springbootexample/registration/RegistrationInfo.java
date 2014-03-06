@@ -1,7 +1,7 @@
 package com.github.joerodriguez.springbootexample.registration;
 
 import com.github.joerodriguez.springbootexample.config.validate.InfoValidator;
-import com.github.joerodriguez.springbootexample.config.validate.Validatable;
+import com.github.joerodriguez.springbootexample.config.validate.Validateable;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,7 @@ import org.springframework.validation.Errors;
 
 import javax.validation.constraints.Size;
 
-public class RegistrationInfo implements Validatable {
+public class RegistrationInfo implements Validateable<RegistrationInfo> {
 
     @NotBlank(message = "Name must not be blank")
     private String name;
@@ -18,7 +18,7 @@ public class RegistrationInfo implements Validatable {
     @Email(message = "Email must be valid")
     private String email;
 
-    @Size(min=6, max=50, message = "Password must be at least 6 characters long")
+    @Size(min = 6, max = 50, message = "Password must be at least 6 characters long")
     private String password;
 
     private String passwordConfirmation;
@@ -55,15 +55,15 @@ public class RegistrationInfo implements Validatable {
         this.passwordConfirmation = passwordConfirmation;
     }
 
+    @Override
     public InfoValidator<RegistrationInfo> validator() {
         return new InfoValidator<RegistrationInfo>() {
-
-            @Autowired UserRepository userRepository;
+            @Autowired
+            UserRepository userRepository;
 
             @Override
             public void validate(RegistrationInfo target, Errors errors) {
-
-                if (! target.getPassword().equals(target.getPasswordConfirmation())) {
+                if (!target.getPassword().equals(target.getPasswordConfirmation())) {
                     errors.rejectValue("password", "", "Password must match password confirmation");
                 }
 
