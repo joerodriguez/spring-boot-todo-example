@@ -77,7 +77,7 @@ public class TodoServiceTest {
         verify(todoRepository).delete(bobTodo);
     }
 
-    @Ignore
+    @Test
     public void testEdit() throws Exception {
         UserEntity bob = new UserEntity();
         bob.setId(1);
@@ -88,7 +88,7 @@ public class TodoServiceTest {
 
         todoService.edit(bobTodo, sally);
         verify(todoRepository, never()).save(bobTodo);
-        todoService.delete(bobTodo, bob);
+        todoService.edit(bobTodo, bob);
         verify(todoRepository).save(bobTodo);
     }
 }
