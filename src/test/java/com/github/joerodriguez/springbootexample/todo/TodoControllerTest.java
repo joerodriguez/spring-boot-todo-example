@@ -25,6 +25,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -84,5 +85,23 @@ public class TodoControllerTest {
                 .andExpect(redirectedUrl("/todo-list"));
 
         verify(todoService).delete(eq(todo), any(UserEntity.class));
+    }
+
+    @Test
+    public void edit() throws Exception {
+        TodoEntity todo = new TodoEntity();
+        todo.setName("cut grass");
+
+        when(todoService.findOne(123L)).thenReturn(todo);
+
+        mockMvc.perform(
+                put("/todo-list/123")
+                        .param("name", "edit grass")
+        )
+                .andExpect(status().isFound())
+                .andExpect(flash().attribute("alertSuccess", "edit grass successfully updated"))
+                .andExpect(redirectedUrl("/todo-list"));
+
+        verify(todoService).edit(eq(todo), any(UserEntity.class));
     }
 }

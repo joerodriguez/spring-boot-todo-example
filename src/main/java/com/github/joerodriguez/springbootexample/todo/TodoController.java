@@ -44,4 +44,18 @@ public class TodoController {
         redirectAttributes.addFlashAttribute("alertSuccess", todo.getName() + " successfully completed");
         return "redirect:/todo-list";
     }
+
+    @RequestMapping(value = "/{todoId}", method = { RequestMethod.PUT, RequestMethod.GET} )
+    public String edit(
+            @PathVariable long todoId,
+            String edit_name,
+            UserEntity currentUser,
+            RedirectAttributes redirectAttributes
+    ) {
+        TodoEntity todo = todoService.findOne(todoId);
+        todo.setName(edit_name);
+        todoService.edit(todo, currentUser);
+        redirectAttributes.addFlashAttribute("alertSuccess", todo.getName() + " successfully updated");
+        return "redirect:/todo-list";
+    }
 }

@@ -4,6 +4,10 @@
         <li th:each="todo : ${todos}" class="list-unstyled">
             <span th:text="${todo.name}"></span>
 
+            <form th:action="@{|/todo-list/${todo.id}|}" method="put" style="display: inline">
+                <input type="text" name="edit_name"/>
+                <input type="submit" value="edit"/>
+            </form>
             <form th:action="@{|/todo-list/${todo.id}|}" method="post" style="display: inline">
                 <input type="hidden" name="_method" value="delete"/>
                 <input type="submit" class="btn btn-link" value="delete"/>

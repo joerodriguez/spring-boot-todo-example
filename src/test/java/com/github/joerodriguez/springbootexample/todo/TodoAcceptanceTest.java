@@ -56,7 +56,20 @@ public class TodoAcceptanceTest extends AbstractAcceptanceTest {
 
         click("input[type=submit][value=delete]");
         findFirst(".alert-success", withText("delete this successfully completed"));
+    }
 
+    @Test
+    public void edit() {
+        // create todo to edit
+        fill("input[name=name]").with("edit this");
+        click("[type=submit]");
+        findFirst("span", withText("edit this"));
+
+        await().until("form[method=put]").isPresent();
+
+        fill("input[name=edit_name]").with("edited this");
+        click("input[type=submit][value=edit]");
+        findFirst(".alert-success", withText("edited this successfully updated"));
     }
 
 }
