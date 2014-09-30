@@ -96,7 +96,7 @@ public class TodoControllerTest {
 
         mockMvc.perform(
                 put("/todo-list/123")
-                        .param("name", "edit grass")
+                        .param("edit_name", "edit grass")
         )
                 .andExpect(status().isFound())
                 .andExpect(flash().attribute("alertSuccess", "edit grass successfully updated"))
