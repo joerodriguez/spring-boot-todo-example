@@ -26,5 +26,7 @@ Running a server:
 Exercises
 ---------
 
-* acceptance tests for creating and deleting todos
-* functionality to edit todos
+* ~~acceptance tests for creating and deleting todos~~
+* ~~functionality to edit todos~~
+* dynamic edit field
+* migrate to groovy templates

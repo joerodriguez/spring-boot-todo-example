@@ -30,4 +30,10 @@ public class TodoService {
             todoRepository.delete(todo);
         return todo;
     }
+
+    public TodoEntity edit(TodoEntity todo, UserEntity user) {
+        if (todo.getUser().getId() == user.getId())
+            todoRepository.save(todo);
+        return todo;
+    }
 }

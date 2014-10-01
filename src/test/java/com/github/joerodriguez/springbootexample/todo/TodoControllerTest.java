@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
@@ -25,6 +26,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -84,5 +86,37 @@ public class TodoControllerTest {
                 .andExpect(redirectedUrl("/todo-list"));
 
         verify(todoService).delete(eq(todo), any(UserEntity.class));
+    }
+
+    @Test
+    public void getTest() throws Exception {
+        TodoEntity todo = new TodoEntity();
+        todo.setName("write code");
+
+        when(todoService.findOne(432L)).thenReturn(todo);
+
+        mockMvc.perform(
+                get("/todo-list/432")
+        )
+                .andExpect(model().attribute("todo", equalTo(todo)))
+                .andExpect(view().name("todo/edit"));
+    }
+
+    @Test
+    public void edit() throws Exception {
+        TodoEntity todo = new TodoEntity();
+        todo.setName("cut grass");
+
+        when(todoService.findOne(123L)).thenReturn(todo);
+
+        mockMvc.perform(
+                put("/todo-list/123")
+                        .param("edit_name", "edit grass")
+        )
+                .andExpect(flash().attribute("alertSuccess", "edit grass successfully updated"))
+                .andExpect(redirectedUrl("/todo-list"));
+
+        verify(todoService).edit(eq(todo), any(UserEntity.class));
+        assertEquals(todo.getName(), "edit grass");
     }
 }

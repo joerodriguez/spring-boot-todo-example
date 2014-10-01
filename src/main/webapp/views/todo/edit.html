@@ -1,0 +1,9 @@
+<div layout:decorator="layouts/layout" layout:fragment="content">
+    <h1>Edit</h1>
+    <form th:action="@{|/todo-list/${todo.id}|}" method="post" style="display: inline">
+        <input type="hidden" name="_method" value="put"/>
+        <input type="text" name="edit_name" th:value="${todo.name}"/>
+        <input type="submit" class="btn btn-primary" value="edit"/>
+    </form>
+
+</div>
