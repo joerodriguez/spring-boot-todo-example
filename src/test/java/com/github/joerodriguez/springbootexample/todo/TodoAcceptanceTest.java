@@ -65,10 +65,11 @@ public class TodoAcceptanceTest extends AbstractAcceptanceTest {
         click("[type=submit]");
         findFirst("span", withText("edit this"));
 
-        await().until("form[method=put]").isPresent();
+        find("a", withText("edit")).click();
 
         fill("input[name=edit_name]").with("edited this");
         click("input[type=submit][value=edit]");
+
         findFirst(".alert-success", withText("edited this successfully updated"));
     }
 

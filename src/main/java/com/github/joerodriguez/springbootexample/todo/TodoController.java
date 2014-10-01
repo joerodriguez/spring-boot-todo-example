@@ -1,6 +1,7 @@
 package com.github.joerodriguez.springbootexample.todo;
 
 import com.github.joerodriguez.springbootexample.registration.UserEntity;
+import com.sun.tools.javac.comp.Todo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,7 +46,17 @@ public class TodoController {
         return "redirect:/todo-list";
     }
 
-    @RequestMapping(value = "/{todoId}", method = { RequestMethod.PUT, RequestMethod.GET} )
+    @RequestMapping(value = "/{todoId}", method = { RequestMethod.GET} )
+    public String get(
+            @PathVariable long todoId,
+            Model model
+    ) {
+        TodoEntity todo = todoService.findOne(todoId);
+        model.addAttribute("todo", todo);
+        return "todo/edit";
+    }
+
+    @RequestMapping(value = "/{todoId}", method = { RequestMethod.PUT} )
     public String edit(
             @PathVariable long todoId,
             String edit_name,

@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
@@ -88,6 +89,20 @@ public class TodoControllerTest {
     }
 
     @Test
+    public void getTest() throws Exception {
+        TodoEntity todo = new TodoEntity();
+        todo.setName("write code");
+
+        when(todoService.findOne(432L)).thenReturn(todo);
+
+        mockMvc.perform(
+                get("/todo-list/432")
+        )
+                .andExpect(model().attribute("todo", equalTo(todo)))
+                .andExpect(view().name("todo/edit"));
+    }
+
+    @Test
     public void edit() throws Exception {
         TodoEntity todo = new TodoEntity();
         todo.setName("cut grass");
@@ -98,10 +113,10 @@ public class TodoControllerTest {
                 put("/todo-list/123")
                         .param("edit_name", "edit grass")
         )
-                .andExpect(status().isFound())
                 .andExpect(flash().attribute("alertSuccess", "edit grass successfully updated"))
                 .andExpect(redirectedUrl("/todo-list"));
 
         verify(todoService).edit(eq(todo), any(UserEntity.class));
+        assertEquals(todo.getName(), "edit grass");
     }
 }

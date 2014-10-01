@@ -4,10 +4,7 @@
         <li th:each="todo : ${todos}" class="list-unstyled">
             <span th:text="${todo.name}"></span>
 
-            <form th:action="@{|/todo-list/${todo.id}|}" method="put" style="display: inline">
-                <input type="text" name="edit_name"/>
-                <input type="submit" value="edit"/>
-            </form>
+            <a th:href="@{|/todo-list/${todo.id}|}">edit</a>
             <form th:action="@{|/todo-list/${todo.id}|}" method="post" style="display: inline">
                 <input type="hidden" name="_method" value="delete"/>
                 <input type="submit" class="btn btn-link" value="delete"/>
@@ -24,7 +21,7 @@
                 <input type="text" name="name"/>
             </label>
 
-            <input type="submit" />
+            <input type="submit" class="btn btn-primary" />
         </form>
     </div>
 </div>
